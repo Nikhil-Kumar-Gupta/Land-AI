@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+backend_py/.venv/
+__pycache__/
+*.pyc
+
+# Secrets / local config
+.env
+*.env
+!.env.example
+
+# Local data & generated artifacts (recreate with: python -m scripts.seed)
+backend_py/sanket_dev.db
+*.db
+backend_py/model_artifacts/
+
+# Build output
+frontend/dist/
+
+# Editor / tool folders
+.claude/
+.vscode/
+.idea/
+*.log
+Thumbs.db
+.DS_Store
