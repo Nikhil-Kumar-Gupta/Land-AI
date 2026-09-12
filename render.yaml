@@ -1,0 +1,23 @@
+# Render Blueprint for the FastAPI backend (backend_py).
+# Database: set DATABASE_URL to your Neon PostgreSQL connection string.
+# The database is seeded once with:  python -m scripts.seed  (run locally with DATABASE_URL pointing at Neon).
+services:
+  - type: web
+    name: land-ai-api
+    runtime: python
+    rootDir: backend_py
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.4
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: OTP_DEV_MODE
+        value: "true"

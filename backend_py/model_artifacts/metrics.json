@@ -1,0 +1,134 @@
+{
+  "model_version": "v202609120452-4785b9",
+  "trained_at": "2026-09-12T04:52:42.156303+00:00",
+  "dataset": {
+    "file": "data/land_acquisition_dataset.csv",
+    "synthetic": true,
+    "rows": 3000,
+    "columns": 42,
+    "train_rows": 2400,
+    "test_rows": 600,
+    "positive_rate": 0.2503,
+    "sha256_prefix": "4785b9bfa54f"
+  },
+  "preprocessing": {
+    "imputation": "Median of each numeric column",
+    "imputed_counts": {
+      "land_area_acres": 42,
+      "number_of_landowners": 37,
+      "compensation_amount_lakh": 42,
+      "pending_documents": 60,
+      "days_in_current_stage": 30,
+      "historical_average_delay_days": 74,
+      "similar_case_average_delay_days": 66
+    },
+    "medians": {
+      "land_area_acres": 66.92,
+      "number_of_landowners": 30.0,
+      "number_of_land_parcels": 17.0,
+      "affected_villages": 7.0,
+      "affected_households": 19.0,
+      "private_land_pct": 65.45,
+      "approval_pending": 0.0,
+      "notification_pending": 0.0,
+      "compensation_pending": 0.0,
+      "compensation_amount_lakh": 171.675,
+      "budget_release_delay_days": 4.0,
+      "dispute_count": 2.0,
+      "court_case": 0.0,
+      "objection_count": 2.0,
+      "survey_completed": 1.0,
+      "ownership_verification_pending": 0.0,
+      "pending_documents": 2.0,
+      "missing_documents": 1.0,
+      "days_in_current_stage": 28.0,
+      "previous_stage_delay_days": 11.0,
+      "total_processing_days": 140.0,
+      "staff_workload_ratio": 0.64,
+      "seasonal_factor": 1.03,
+      "district_historical_delay_rate": 0.422,
+      "historical_average_delay_days": 62.7,
+      "similar_case_average_delay_days": 37.0
+    },
+    "dropped_columns": {
+      "government_land_pct": "Redundant: always 100 - private_land_pct",
+      "state / district": "Location effect represented by district_historical_delay_rate",
+      "delayed": "Recorded outcome flag - shown on cases, not a model input"
+    },
+    "encoding": "Stage (ordered), project type, priority and project category as integer codes",
+    "split": "80/20 stratified on the significant-delay label, random_state=42"
+  },
+  "target": {
+    "risk": "Probability that the additional delay exceeds 75 days",
+    "delay": "Expected additional delay (days)"
+  },
+  "risk_bands": {
+    "High": 0.65,
+    "Medium": 0.35
+  },
+  "features": [
+    "land_area_acres",
+    "number_of_landowners",
+    "number_of_land_parcels",
+    "affected_villages",
+    "affected_households",
+    "private_land_pct",
+    "approval_pending",
+    "notification_pending",
+    "compensation_pending",
+    "compensation_amount_lakh",
+    "budget_release_delay_days",
+    "dispute_count",
+    "court_case",
+    "objection_count",
+    "survey_completed",
+    "ownership_verification_pending",
+    "pending_documents",
+    "missing_documents",
+    "stage_index",
+    "days_in_current_stage",
+    "previous_stage_delay_days",
+    "total_processing_days",
+    "staff_workload_ratio",
+    "seasonal_factor",
+    "district_historical_delay_rate",
+    "historical_average_delay_days",
+    "similar_case_average_delay_days",
+    "project_type_code",
+    "priority_code",
+    "project_category_code"
+  ],
+  "risk_model": {
+    "selected": "XGBoost Classifier",
+    "candidates": {
+      "XGBoost Classifier": {
+        "roc_auc": 0.9285,
+        "accuracy": 0.88,
+        "precision": 0.8305,
+        "recall": 0.6533,
+        "f1": 0.7313
+      },
+      "Random Forest Classifier": {
+        "roc_auc": 0.8972,
+        "accuracy": 0.8383,
+        "precision": 0.9077,
+        "recall": 0.3933,
+        "f1": 0.5488
+      }
+    }
+  },
+  "delay_model": {
+    "selected": "XGBoost Regressor",
+    "candidates": {
+      "XGBoost Regressor": {
+        "mae_days": 6.2,
+        "r2": 0.8034
+      },
+      "Random Forest Regressor": {
+        "mae_days": 8.06,
+        "r2": 0.6664
+      }
+    }
+  },
+  "explainability": "SHAP TreeExplainer (interventional, background of 100 training rows)"
+}
