@@ -9,10 +9,10 @@ __pycache__/
 *.env
 !.env.example
 
-# Local data & generated artifacts (recreate with: python -m scripts.seed)
+# Local dev database (recreate with: python -m scripts.seed)
+# backend_py/model_artifacts/ is committed so the deployed API serves the same trained model.
 backend_py/sanket_dev.db
 *.db
-backend_py/model_artifacts/
 
 # Build output
 frontend/dist/
